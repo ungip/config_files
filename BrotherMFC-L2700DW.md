@@ -12,4 +12,4 @@ sudo systemctl start cups.service
 ```
 sudo brsaneconfig4 -a name=BrotherMFCL2700DW model=MFC-L2700DW ip=192.168.1.xx
 ```
-In CUPS (localhost:631), configure new printer with IPP (by IP works best with ipp://192.168.1.xx:631/ipp/print) and “MFC-L2700DW - IPP Everywhere” CUPS driver.
+In CUPS (localhost:631), configure new printer with IPP (by IP works best with ipp://192.168.1.xx:631/ipp/port1) and “MFC-L2700DW - IPP Everywhere” CUPS driver.
