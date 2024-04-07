@@ -10,7 +10,3 @@
 ```
 192.168.1.100:/volume1  /mnt/synology   nfs defaults    0   0
 ```
-#### NFS Windows
-```
-mount -o anon \\192.168.1.100\volume1 x:
-```
