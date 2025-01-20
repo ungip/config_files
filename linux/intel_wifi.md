@@ -1,3 +1,5 @@
+###Ubuntu / Debian
+
 If your WiFi is slow when using Bluetooth, try adding the following to **/etc/modprobe.d/iwlwifi.conf** and reboot:
 
 ```
