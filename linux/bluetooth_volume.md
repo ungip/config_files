@@ -1,4 +1,6 @@
 ```
 wpctl status
+```
+```
 wpctl set-volume 62 50%
 ```
