@@ -1,0 +1,228 @@
+pages:
+  - name: Home
+    # Optionally, if you only have a single page you can hide the desktop navigation for a cleaner look
+    # hide-desktop-navigation: true
+    head-widgets:
+      - type: markets
+        hide-header: true
+        markets:
+          - symbol: EURHUF=X
+            name: EUR-HUF
+          - symbol: BTC-EUR
+            name: Bitcoin
+          - symbol: ^GDAXI
+            name: DAX P
+          - symbol: ^NDX
+            name: NASDAQ-100
+          - symbol: ^VIX
+            name: VIX
+
+    columns:
+      - size: small
+        widgets:
+          - type: monitor
+            cache: 5h
+            title: Services
+            sites:
+             - title: Fritzbox
+               url: http://192.168.1.1
+               icon: sh:fritz
+             - title: Proxmox
+               url: http://192.168.1.10:8006
+               check-url: https://home.ungi.cc
+               icon: sh:proxmox
+             - title: Dockge
+               url: http://192.168.1.12:5001
+               icon: sh:dockge
+             - title: Synology
+               url: http://192.168.1.101:5000
+               icon: sh:synology
+
+          - type: monitor
+            cache: 5h
+            title: Smart Home
+            sites:
+             - title: Home Assistant
+               url: http://192.168.1.30:8123
+               icon: sh:home-assistant
+             - title: Stromzähler
+               url: http://192.168.1.45
+               icon: https://img.freepik.com/fotos-kostenlos/elektrische-warnzeichen_1194-7007.jpg?t=st=1736871008~exp=1736874608~hmac=3deafee34196827190cfc1b2cb3721d7a307082625a552ffbb388e0111023e56&w=996
+             - title: Ecowitt
+               url: http://192.168.1.74
+               icon: https://play-lh.googleusercontent.com/AQSQaw0iHJBPhSygrq-dlGuzqg_fCvdBxDomeHE2EppEhWHukKRO6wH2ybi4ReKlXlQ=w480-h960-rw
+
+      - size: full
+        widgets:
+          - type: group
+            widgets:
+              - type: rss
+                title: News
+                style: detailed-list
+                feeds:
+                  - url: https://kurier.at/politik/xml/rssd
+                    title: Kurier/Politik
+                  - url: https://kurier.at/wirtschaft/xml/rssd
+                    title: Kurier/Wirtschaft
+                  - url: https://www.bvz.at/eisenstadt/xml/rss
+                    title: BVZ/Eisenstadt
+                  - url: https://www.bvz.at/burgenland/xml/rss
+                    title: BVZ/burgenlan
+              - type: rss
+                title: IT
+                style: detailed-list
+                feeds:
+                  - url: https://www.gamestar.de/news/rss/news.rss
+                    title: GameStar
+                  - url: https://mobilarena.hu/hirfolyam/anyagok/rss.xml
+                    title: Mobilarena
+                  - url: https://www.notebookcheck.com/News.37.100.html
+                    title: notebookcheck
+                  #- url: https://www.heise.de/rss/heise-Rubrik-IT-atom.xml
+                  #  title: heise.de
+                  #- url: https://static.winfuture.de/feeds/WinFuture-News-rss2.0.xml
+                  #  title: winfuture
+                  - url: https://rss.orf.at/science.xml
+                    title: orf.science
+
+              - type: rss
+                title: Auto
+                style: detailed-list
+                feeds:
+                  - url: https://www.autonavigator.hu/feed/
+                    title: Autonavigator
+                  - url: https://totalcar.hu/feed/
+                    title: Totalcar
+                  - url: https://www.vezess.hu/feed/
+                    title: Vezess.hu
+                  - url: https://www.motorradonline.de/rss/alle/
+                    title: motorrad
+
+      - size: small
+        widgets:
+          - type: weather
+            hide-header: true
+            location: Eisenstadt, Austria
+            units: metric # alternatively "imperial"
+            hour-format: 24h # alternatively "24h"
+            # Optionally hide the location from being displayed in the widget
+            # hide-location: true
+
+          - type: custom-api
+            title: Epic Games
+            cache: 1h
+            url: https://store-site-backend-static.ak.epicgames.com/freeGamesPromotions?locale=en&country=US&allowCountries=US
+            template: |
+              <div>
+                {{ if eq .Response.StatusCode 200 }}
+                  <div class="horizontal-cards-2">
+                    {{ range .JSON.Array "data.Catalog.searchStore.elements" }}
+                      {{ $price := .String "price.totalPrice.discountPrice" }}
+                      {{ $hasPromo := gt (len (.Array "promotions.promotionalOffers")) 0 }}
+                      {{ if and $hasPromo (eq $price "0") }}
+                        {{ $gamePage := .String "productSlug" }}
+                        {{ if gt (len (.Array "offerMappings")) 0 }}
+                          {{ $gamePage = .String "offerMappings.0.pageSlug" }}
+                        {{end }}
+                        <a href="https://store.epicgames.com/en-US/p/{{ $gamePage }}" target="_blank" class="card">
+                          {{ $title := .String "title" }}
+                          {{ range .Array "keyImages" }}
+                            {{ if eq (.String "type") "OfferImageWide" }}
+                              <img src="{{ .String "url" }}" alt="{{ $title }}" style="width: 100%; max-width: 300px; height: 150px; object-fit: cover; border-radius: var(--border-radius);">
+                            {{ end }}
+                          {{ end }}
+                          <div class="card-content">
+                            <span class="size-base color-primary">{{ $title }}</span><br>
+                            <span class="size-h5 color-subdue">
+                              {{ if $hasPromo }}
+                                {{ $promotions := .Array "promotions.promotionalOffers" }}
+                                {{ if gt (len $promotions) 0 }}
+                                  {{ $firstPromo := index $promotions 0 }}
+                                  {{ $offers := $firstPromo.Array "promotionalOffers" }}
+                                  {{ if gt (len $offers) 0 }}
+                                    {{ $firstOffer := index $offers 0 }}
+                                    Free until {{ slice ($firstOffer.String "endDate") 0 10 }}
+                                  {{ else }}
+                                    Free this week!
+                                  {{ end }}
+                                {{ else }}
+                                  Free this week!
+                                {{ end }}
+                              {{ end }}
+                            </span>
+                          </div>
+                        </a>
+                      {{ end }}
+                    {{ end }}
+                  </div>
+                {{ else }}
+                  <p class="color-negative">Error fetching Epic Games data.</p>
+                {{ end }}
+              </div>
+            
+
+ ############################################################################################################################
+  - name: Media
+    columns:
+      - size: small
+        widgets:
+          - type: monitor
+            cache: 5h
+            title: Media
+            sites:
+             - title: Jellyfin
+               url: http://192.168.1.101:8096
+               icon: sh:jellyfin
+             - title: Jellyseerr
+               url: http://192.168.1.101:5055
+               icon: sh:jellyseerr
+             - title: Synology
+               url: http://192.168.1.101:5000
+               icon: sh:synology
+          - type: monitor
+            cache: 5h
+            title: Servarr
+            sites:
+             - title: Prowlarr
+               url: http://192.168.1.101:9696
+               icon: sh:prowlarr
+             - title: Radarr
+               url: http://192.168.1.101:7878
+               icon: sh:radarr
+             - title: Sonarr
+               url: http://192.168.1.101:8989
+               icon: sh:sonarr
+             - title: qBittorrent
+               url: http://192.168.1.101:7777
+               icon: sh:qbittorrent
+             - title: SABnzbd
+               url: http://192.168.1.101:8080
+               icon: sh:sabnzbd
+            
+      - size: full
+        widgets:
+          - type: rss
+            title: film
+            style: detailed-list
+            feeds:
+              #- url: https://www.slashfilm.com/feed/
+              #  title: slashfilm
+              #- url: https://www.moviepilot.de/rss/moviepilot-standard
+              #  title: moviepilot
+              - url: https://www.filmstarts.de/rss/nachrichten.xml
+                title: filmstarts
+              - url: https://www.mafab.hu/rss.php
+                title: mafab
+
+      - size: small
+        widgets:
+          - type: rss
+            title: Bithumen
+            style: vertical-list
+            single-line-titles: true
+            collapse-after: 10
+            feeds:
+              - url: https://bithumen.be/rssgen/1lUu05UCAAAlACkA/rss.xml
+                title: 
+
+ 
