@@ -1,0 +1,13 @@
+### Markdown for Kate
+```
+sudo pacman -S markdownpart
+```
+```
+sudo apt install markdownpart
+```
+////////////////////Einstellungen - Kate Einrichten - Module - Dokumentenvorschau
+
+### Yay
+```
+https://aur.archlinux.org/yay-bin.git
+```
