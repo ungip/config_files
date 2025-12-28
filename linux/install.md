@@ -16,5 +16,5 @@ https://aur.archlinux.org/yay-bin.git
 chsh -s $(which fish)
 ```
 ```
-
+set -U fish_greeting
 ```
