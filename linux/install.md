@@ -11,3 +11,10 @@ sudo apt install markdownpart
 ```
 https://aur.archlinux.org/yay-bin.git
 ```
+### Fish 
+```
+chsh -s $(which fish)
+```
+```
+
+```
