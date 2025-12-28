@@ -9,7 +9,7 @@
 - Global Design -> Breeze Dunkel
   - Anwendungs-Stil -> Transparenz
   - Fensterdeko -> keine Fensterumrandung
-  - Symbole -> Kaze-dark (`download...`)
+  - Symbole -> Kaze-dark `download... ` copy to `/.local/share/icons`
   - Zeiger -> Breeze Hell
 - Text & Schriftarten -> Google inter (`download...`)
 - Animationen -> Fenster minimieren - Wunderlampe
