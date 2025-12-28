@@ -5,7 +5,7 @@ sudo pacman -S markdownpart
 ```
 sudo apt install markdownpart
 ```
-////////////////////Einstellungen - Kate Einrichten - Module - Dokumentenvorschau
+>Einstellungen - Kate Einrichten - Module - Dokumentenvorschau
 
 ### Yay
 ```
