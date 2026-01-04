@@ -9,12 +9,12 @@ sudo apt install markdownpart
 
 ### Yay
 ```
-https://aur.archlinux.org/yay-bin.git
+sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay-bin.git && cd yay-bin && makepkg -si
 ```
 ### Fish 
 ```
 chsh -s $(which fish)
 ```
 ```
-set -U fish_greeting
+printf "[General]\nNumlock=on" | sudo tee /etc/sddm.conf
 ```
